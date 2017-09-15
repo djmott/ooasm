@@ -5,10 +5,17 @@ ooasm::cli unit tests
 
 
 #include <xtd/parse.hpp>
+#include <xtd/string.hpp>
 #include "../src/cli.hpp"
 
 TEST(test_cli, file_path){
-  std::string s="/test";
-  using parser = xtd::parser<ooasm::cli::file_path, true, xtd::parse::whitespace<>>;
-  auto oAST = parser::parse(s.begin(), s.end());
+  std::string s="--in=test1.asm";
+  EXPECT_TRUE(!!ooasm::cli::parser::parse(s.begin(), s.end()));
+  s="--out=test.bin";
+  EXPECT_TRUE(!!ooasm::cli::parser::parse(s.begin(), s.end()));
+  s="--format=dwarf";
+  EXPECT_TRUE(!!ooasm::cli::parser::parse(s.begin(), s.end()));
+  s="--format=snafo";
+  EXPECT_FALSE(!!ooasm::cli::parser::parse(s.begin(), s.end()));
+
 }

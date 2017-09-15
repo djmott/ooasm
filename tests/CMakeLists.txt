@@ -12,3 +12,5 @@ include_directories(
 add_executable(unit_tests unit_tests.cpp test_cli.hpp)
 
 target_link_libraries(unit_tests dl pthread stdc++)
+
+add_dependencies(unit_tests XTL)
