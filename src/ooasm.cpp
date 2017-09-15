@@ -34,8 +34,10 @@ int main(int argc, char * argv[]) {
     if (oArg->items()[0]->isa(typeid(cli::input_param))) oInput = std::dynamic_pointer_cast<cli::input_param>(oArg->items()[0]);
     else if (oArg->items()[0]->isa(typeid(cli::output_param))) oOutput = std::dynamic_pointer_cast<cli::output_param>(oArg->items()[0]);
     else if (oArg->items()[0]->isa(typeid(cli::format_param))) oFormat = std::dynamic_pointer_cast<cli::format_param>(oArg->items()[0]);
-
   }
+
+  if (!oInput || !oOutput || !oFormat) return usage(argv[0]);
+
 
 
 

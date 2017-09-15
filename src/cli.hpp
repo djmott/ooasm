@@ -33,6 +33,7 @@ namespace ooasm{
     struct input_param : rule<input_param, and_<_::szInputParam, _::szPath >>{
       using pointer = std::shared_ptr<input_param>;
       template <typename ... _argts> input_param(_argts&&...oArgs) : rule(std::forward<_argts>(oArgs)...){}
+
     };
 
     struct output_param : rule<output_param, and_<_::szOutParam, _::szPath>>{
