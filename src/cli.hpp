@@ -33,7 +33,10 @@ namespace ooasm{
     struct input_param : rule<input_param, and_<_::szInputParam, _::szPath >>{
       using pointer = std::shared_ptr<input_param>;
       template <typename ... _argts> input_param(_argts&&...oArgs) : rule(std::forward<_argts>(oArgs)...){}
-
+      xtd::filesystem::path Path() const {
+        auto oPath = std::dynamic_pointer_cast<_::szPath >(items()[1]);
+        return xtd::filesystem::path( oPath->value() );
+      }
     };
 
     struct output_param : rule<output_param, and_<_::szOutParam, _::szPath>>{

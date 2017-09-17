@@ -8,6 +8,7 @@ Parser
 
 namespace ooasm{
   namespace parse{
+    using namespace xtd::parse;
     namespace _{
       STRING_(AL);
       STRING_(AH);
@@ -17,6 +18,17 @@ namespace ooasm{
       STRING_(CH);
       STRING_(DL);
       STRING_(DH);
+
+      STRING_(MOV);
     }
+
+
+    struct grammar : rule<grammar,  _::MOV>{
+      template <typename ..._argTs> grammar(_argTs&&...oArgs) : rule(std::forward<_argTs>(oArgs)...){}
+    };
+
   }
+
+  using parser = xtd::parser<parse::grammar, true, parse::whitespace<' ', '\t', '\r'>>;
+
 }

@@ -21,15 +21,17 @@ ExternalProject_Add(XTL
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/XTL/include)
 
-if(Unix OR Cygwin)
-  link_libraries(dl pthread stdc++)
+if(UNIX OR CYGWIN)
+  link_libraries(dl pthread stdc++ stdc++fs)
 endif()
 
 
   set(SOURCE_FILES
-  src/ooasm.cpp
   src/cli.hpp
+  src/x86.hpp
+  src/ooasm.cpp
   src/parse.hpp
+
   )
 
 
