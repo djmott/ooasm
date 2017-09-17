@@ -4,51 +4,53 @@
 namespace ooasm{
   namespace x86{
 
-    struct al{ static const uint8_t modrm_reg = 0; };
-    struct ah{static const uint8_t modrm_reg = 1;};
-    struct cl{static const uint8_t modrm_reg = 2;};
-    struct ch{static const uint8_t modrm_reg = 3;};
-    struct dl{static const uint8_t modrm_reg = 4;};
-    struct dh{static const uint8_t modrm_reg = 5;};
-    struct bl{static const uint8_t modrm_reg = 6;};
-    struct bh{static const uint8_t modrm_reg = 7;};
+    template <uint8_t _modrm_reg> struct reg { static const uint8_t reg_field = _modrm_reg; };
 
-    struct ax{static const uint8_t modrm_reg = 0;};
-    struct cx{static const uint8_t modrm_reg = 1;};
-    struct dx{static const uint8_t modrm_reg = 2;};
-    struct bx{static const uint8_t modrm_reg = 3;};
-    struct sp{static const uint8_t modrm_reg = 4;};
-    struct bp{static const uint8_t modrm_reg = 5;};
-    struct si{static const uint8_t modrm_reg = 6;};
-    struct di{static const uint8_t modrm_reg = 7;};
+    using al = reg<0>;
+    using ah = reg<1>;
+    using cl = reg<2>;
+    using ch = reg<3>;
+    using dl = reg<4>;
+    using dh = reg<5>;
+    using bl = reg<6>;
+    using bh = reg<7>;
 
-    struct eax{static const uint8_t modrm_reg = 0;};
-    struct ecx{static const uint8_t modrm_reg = 1;};
-    struct edx{static const uint8_t modrm_reg = 2;};
-    struct ebx{static const uint8_t modrm_reg = 3;};
-    struct esp{static const uint8_t modrm_reg = 4;};
-    struct ebp{static const uint8_t modrm_reg = 5;};
-    struct esi{static const uint8_t modrm_reg = 6;};
-    struct edi{static const uint8_t modrm_reg = 7;};
+    using ax = reg<0>;
+    using cx = reg<1>;
+    using dx = reg<2>;
+    using bx = reg<3>;
+    using sp = reg<4>;
+    using bp = reg<5>;
+    using si = reg<6>;
+    using di = reg<7>;
 
-    struct mm0{static const uint8_t modrm_reg = 0;};
-    struct mm1{static const uint8_t modrm_reg = 1;};
-    struct mm2{static const uint8_t modrm_reg = 2;};
-    struct mm3{static const uint8_t modrm_reg = 3;};
-    struct mm4{static const uint8_t modrm_reg = 4;};
-    struct mm5{static const uint8_t modrm_reg = 5;};
-    struct mm6{static const uint8_t modrm_reg = 6;};
-    struct mm7{static const uint8_t modrm_reg = 7;};
+    using eax = reg<0>;
+    using ecx = reg<1>;
+    using edx = reg<2>;
+    using ebx = reg<3>;
+    using esp = reg<4>;
+    using ebp = reg<5>;
+    using esi = reg<6>;
+    using edi = reg<7>;
 
-    struct xmm0{static const uint8_t modrm_reg = 0;};
-    struct xmm1{static const uint8_t modrm_reg = 1;};
-    struct xmm2{static const uint8_t modrm_reg = 2;};
-    struct xmm3{static const uint8_t modrm_reg = 3;};
-    struct xmm4{static const uint8_t modrm_reg = 4;};
-    struct xmm5{static const uint8_t modrm_reg = 5;};
-    struct xmm6{static const uint8_t modrm_reg = 6;};
-    struct xmm7{static const uint8_t modrm_reg = 7;};
+    using mm0 = reg<0>;
+    using mm1 = reg<1>;
+    using mm2 = reg<2>;
+    using mm3 = reg<3>;
+    using mm4 = reg<4>;
+    using mm5 = reg<5>;
+    using mm6 = reg<6>;
+    using mm7 = reg<7>;
 
+
+    using xmm0 = reg<0>;
+    using xmm1 = reg<1>;
+    using xmm2 = reg<2>;
+    using xmm3 = reg<3>;
+    using xmm4 = reg<4>;
+    using xmm5 = reg<5>;
+    using xmm6 = reg<6>;
+    using xmm7 = reg<7>;
 
     template <uint8_t ... _binvals> struct opcode_literal{
       static constexpr std::vector<uint8_t > binary() {
@@ -80,26 +82,19 @@ namespace ooasm{
     //represents [reg+reg] effective address fields in a modr/m opcode
     template <typename _base_reg, typename _offset_reg> struct modrm_effective_address;
 
-    template <> struct modrm_effective_address<bx, si>{ static const uint8_t modrm_rm_field=0; };
-    template <> struct modrm_effective_address<bx, di>{ static const uint8_t modrm_rm_field=1; };
-    template <> struct modrm_effective_address<bp, si>{ static const uint8_t modrm_rm_field=2; };
-    template <> struct modrm_effective_address<bp, di>{ static const uint8_t modrm_rm_field=3; };
-    template <> struct modrm_effective_address<si, nullptr_t>{ static const uint8_t modrm_rm_field=4; };
-    template <> struct modrm_effective_address<di, nullptr_t>{ static const uint8_t modrm_rm_field=5; };
-    template <> struct modrm_effective_address<bp, nullptr_t>{ static const uint8_t modrm_rm_field=6; };
-    template <> struct modrm_effective_address<bx, nullptr_t>{ static const uint8_t modrm_rm_field=7; };
+    template <> struct modrm_effective_address<bx, si>{ static const uint8_t rm_field =0; };
+    template <> struct modrm_effective_address<bx, di>{ static const uint8_t rm_field =1; };
+    template <> struct modrm_effective_address<bp, si>{ static const uint8_t rm_field =2; };
+    template <> struct modrm_effective_address<bp, di>{ static const uint8_t rm_field =3; };
+    template <> struct modrm_effective_address<si, nullptr_t>{ static const uint8_t rm_field =4; };
+    template <> struct modrm_effective_address<di, nullptr_t>{ static const uint8_t rm_field =5; };
+    template <> struct modrm_effective_address<bp, nullptr_t>{ static const uint8_t rm_field =6; };
+    template <> struct modrm_effective_address<bx, nullptr_t>{ static const uint8_t rm_field=7; };
 
 
     struct modrm_mod_field_no_disp{ static const uint8_t mod_field = 0; };
     struct modrm_mod_field_8b_disp{ static const uint8_t mod_field = 0100; };
     struct modrm_mod_field_16b_disp{ static const uint8_t mod_field = 0200; };
-
-/*
-    template <int16_t _disp> struct modrm_mod_field
-      : std::conditional< ( (_disp < 0 && _disp >-128) || (_disp > 0 && _disp < 129) ),modrm_mod_field_8b_disp,
-          typename std::conditional<( (_disp < 0 && _disp < -127) || (_disp > 0 && _disp > 128) ),  modrm_mod_field_16b_disp, modrm_mod_field_no_disp >::type
-      >::type{};
-*/
 
     template <int16_t _disp> struct modrm_mod_field
       : std::conditional<0==_disp, modrm_mod_field_no_disp,
@@ -107,12 +102,28 @@ namespace ooasm{
         >::type{};
 
 
-    template <typename _dest_t, typename _src_t, int16_t _disp> struct modrm;
+/*
+    template <typename _reg1, typename _reg2> struct modrm;
 
-    template <typename _dest_t, typename _base_reg, typename _offset_reg, int16_t _disp>
-    struct modrm<_dest_t, modrm_effective_address<_base_reg, _offset_reg>, _disp>{
-      static const uint8_t value = modrm_mod_field<_disp>::mod_field;
+    template <uint8_t _reg1id, uint8_t _reg2id> struct modrm<reg<_reg1id>, reg<_reg2id>> {
+      using reg1 = reg<_reg1id>;
+      using reg2 = reg<_reg2id>;
+      static const uint8_t value = 0300 | (reg1::reg_field << 3) | reg2::reg_field;
     };
+
+    template <uint8_t _reg1, typename _src_t, int16_t _disp> struct modrm {
+      static const uint8_t value = modrm_mod_field<_disp>::mod_field |
+        modrm_effective_address<_base_reg, _offset_reg>::rm_field |
+        _reg_t::reg_field;
+    };
+
+    template <typename _reg_t, typename _base_reg, typename _offset_reg, int16_t _disp>
+    struct modrm<_reg_t, modrm_effective_address<_base_reg, _offset_reg>, _disp>{
+      static const uint8_t value = modrm_mod_field<_disp>::mod_field |
+        modrm_effective_address<_base_reg, _offset_reg>::rm_field |
+        _reg_t::reg_field;
+    };
+*/
 
   }
 }

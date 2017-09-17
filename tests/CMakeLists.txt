@@ -9,8 +9,10 @@ include_directories(
   "${CMAKE_CURRENT_BINARY_DIR}/gtest/googletest/include"
 )
 
-add_executable(unit_tests unit_tests.cpp test_cli.hpp)
+add_executable(unit_tests unit_tests.cpp test_cli.hpp test_x86.hpp)
 
-target_link_libraries(unit_tests dl pthread stdc++)
+if(UNIX OR CYGWIN)
+  target_link_libraries(unit_tests dl pthread stdc++)
+endif()
 
 add_dependencies(unit_tests XTL ooasm)

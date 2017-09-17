@@ -11,6 +11,9 @@ cli
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <fstream>
+#include <sstream>
+#include <streambuf>
 #include "parse.hpp"
 #include "cli.hpp"
 #include "x86.hpp"
@@ -26,7 +29,7 @@ int usage(const char * sPath){
 int main(int argc, char * argv[]) {
   using namespace ooasm;
 
-  cli::input_param::pointer oInput;
+  cli::input_param::pointer oInParam;
   cli::output_param::pointer oOutput;
   cli::format_param::pointer oFormat;
 
@@ -34,21 +37,28 @@ int main(int argc, char * argv[]) {
     xtd::string sArg = argv[i];
     auto oArg = ooasm::cli::parser::parse(sArg.begin(), sArg.end());
     if (!oArg) return usage(argv[0]);
-    if (oArg->items()[0]->isa(typeid(cli::input_param))) oInput = std::dynamic_pointer_cast<cli::input_param>(oArg->items()[0]);
+    if (oArg->items()[0]->isa(typeid(cli::input_param))) oInParam = std::dynamic_pointer_cast<cli::input_param>(oArg->items()[0]);
     else if (oArg->items()[0]->isa(typeid(cli::output_param))) oOutput = std::dynamic_pointer_cast<cli::output_param>(oArg->items()[0]);
     else if (oArg->items()[0]->isa(typeid(cli::format_param))) oFormat = std::dynamic_pointer_cast<cli::format_param>(oArg->items()[0]);
   }
 
-  if (!oInput || !oOutput || !oFormat) return usage(argv[0]);
+  if (!oInParam || !oOutput || !oFormat) return usage(argv[0]);
 
-  auto oSource = oInput->Path();
+  auto oInPath = oInParam->Path();
 
-  if (!xtd::filesystem::exists(oSource)){
-    std::cout << "File not found: " << oSource.string() << '\n';
+  if (!xtd::filesystem::exists(oInPath)){
+    std::cout << "File not found: " << oInPath.string() << '\n';
     return usage(argv[0]);
   }
 
+  std::ifstream oInFile(oInPath);
+  if (oInFile.bad()) {
+    std::cout << "Failure reading file: " << oInPath.string() << '\n';
+  }
 
+  std::string sInFile((std::istreambuf_iterator<char>(oInFile)), std::istreambuf_iterator<char>());
+
+  auto oAST = ooasm::asm_parser::parse(sInFile.begin(), sInFile.end());
 
   return 0;
 }
