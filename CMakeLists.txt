@@ -26,13 +26,11 @@ if(UNIX OR CYGWIN)
 endif()
 
 
-  set(SOURCE_FILES
+set(SOURCE_FILES
   src/cli.hpp
-  src/x86.hpp
   src/ooasm.cpp
-  src/parse.hpp
-
-  )
+  src/parser.hpp
+)
 
 
 

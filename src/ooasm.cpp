@@ -14,10 +14,8 @@ cli
 #include <fstream>
 #include <sstream>
 #include <streambuf>
-#include "parse.hpp"
+#include "parser.hpp"
 #include "cli.hpp"
-#include "x86.hpp"
-
 
 
 int usage(const char * sPath){
@@ -59,6 +57,12 @@ int main(int argc, char * argv[]) {
   std::string sInFile((std::istreambuf_iterator<char>(oInFile)), std::istreambuf_iterator<char>());
 
   auto oAST = ooasm::asm_parser::parse(sInFile.begin(), sInFile.end());
+
+  if (oAST) {
+    std::cout << "Successfully parsed " << oInPath.string() << '\n';
+  }else{
+    std::cout << "Failed to parse " << oInPath.string() << '\n';
+  }
 
   return 0;
 }
